@@ -10,21 +10,35 @@ import lombok.Getter;
 public class Guest extends AggregateRoot<GuestID> {
     private String name;
     private Integer age;
+    private String document;
     private String phoneNumber;
     private String email;
     private Profile profile;
 
-    public Guest(GuestID guestID, String name, Integer age, String phoneNumber, String email, Profile profile) {
+    public Guest(GuestID guestID, String name, Integer age, String document, String phoneNumber, String email, Profile profile) {
         super(guestID);
         this.name = name;
         this.age = age;
+        this.document = document;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.profile = profile;
     }
 
+    public void update(String name, Integer age, String document, String phoneNumber, String email, Profile profile) {
+        this.name = name;
+        this.age = age;
+        this.document = document;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.profile = profile;
+    }
     @Override
     public void validate(ValidationHandler handler) {
         new GuestValidator(this, handler).validate();
+    }
+
+    public Profile getProfile() {
+        return profile;
     }
 }
