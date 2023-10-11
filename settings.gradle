@@ -1,0 +1,5 @@
+rootProject.name = 'tickets-api'
+include ':domain'
+include ':application'
+include ':infrastructure'
+

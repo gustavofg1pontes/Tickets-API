@@ -1,0 +1,81 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.4'
+    id 'application'
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'br.com.ifsp.tickets.api'
+version = '0.0.1-SNAPSHOT'
+description = 'infrastructure'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+mainClassName = 'br.com.ifsp.tickets.api.infra.Main'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+	implementation(project(":application"))
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
+    implementation 'io.vavr:vavr:0.10.4'
+	implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+}
+
+tasks.named('test') {
+	outputs.dir snippetsDir
+	useJUnitPlatform()
+}
+
+tasks.named('asciidoctor') {
+	inputs.dir snippetsDir
+	dependsOn test
+}
+
+bootJar {
+    archiveFileName = "TICKETS-API.${archiveExtension.get()}"
+    destinationDirectory.set(file("${rootProject.buildDir}/libs"))
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            artifact = "TICKETS-API.jar"
+            group = "br.com.ifsp.tickets.api"
+            name = "Tickets-API"
+            version = "1.0"
+        }
+    }
+}
