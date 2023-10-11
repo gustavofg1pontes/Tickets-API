@@ -25,6 +25,10 @@ public class Guest extends AggregateRoot<GuestID> {
         this.profile = profile;
     }
 
+    public static Guest with(GuestID guestID, String name, Integer age, String document, String phoneNumber, String email, Profile profile) {
+        return new Guest(guestID, name, age, document, phoneNumber, email, profile);
+    }
+
     public void update(String name, Integer age, String document, String phoneNumber, String email, Profile profile) {
         this.name = name;
         this.age = age;
