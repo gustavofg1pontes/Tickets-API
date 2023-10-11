@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/tickets-api.application.main.iml" filepath="$PROJECT_DIR$/.idea/modules/application/tickets-api.application.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/tickets-api.domain.main.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/tickets-api.domain.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/infrastructure/tickets-api.infrastructure.main.iml" filepath="$PROJECT_DIR$/.idea/modules/infrastructure/tickets-api.infrastructure.main.iml" />
     </modules>
   </component>
 </project>
