@@ -31,6 +31,12 @@ public class Event extends AggregateRoot<EventID> {
         return new Event(eventID, name, dateTime, guests, maxQuantGuests);
     }
 
+    public void update(String name, LocalDateTime localDateTime, Integer maxQuantGuests){
+        this.name = name;
+        this.dateTime = localDateTime;
+        this.maxQuantGuests = maxQuantGuests;
+    }
+
     public void addGuest(Guest guest){
         this.guests.add(guest);
     }

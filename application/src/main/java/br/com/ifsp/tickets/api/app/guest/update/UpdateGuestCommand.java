@@ -14,6 +14,14 @@ public record UpdateGuestCommand (
 
     public static UpdateGuestCommand from(final String id, final String name, final Integer age, final String document,
                                           final String phoneNumber, final String email, final Profile profile){
-        return new UpdateGuestCommand(id, name, age, document, phoneNumber, email, profile.name());
+        return new UpdateGuestCommand(
+                id,
+                name,
+                age,
+                document,
+                phoneNumber,
+                email,
+                profile.name()
+        );
     }
 }
