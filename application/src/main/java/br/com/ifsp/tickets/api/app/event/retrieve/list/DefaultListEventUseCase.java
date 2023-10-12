@@ -4,10 +4,10 @@ import br.com.ifsp.tickets.api.domain.event.gateway.EventGateway;
 import br.com.ifsp.tickets.api.domain.shared.search.Pagination;
 import br.com.ifsp.tickets.api.domain.shared.search.SearchQuery;
 
-public class DefaultListGuestsUseCase extends ListEventsUseCase {
+public class DefaultListEventUseCase extends ListEventsUseCase {
     private final EventGateway eventGateway;
 
-    public DefaultListGuestsUseCase(EventGateway eventGateway) {
+    public DefaultListEventUseCase(EventGateway eventGateway) {
         this.eventGateway = eventGateway;
     }
 
