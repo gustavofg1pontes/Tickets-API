@@ -13,8 +13,8 @@ public class DefaultDeleteEventUseCase extends DeleteEventUseCase{
     }
 
     @Override
-    public void execute(DeleteEventCommand anIn) {
-        final EventID eventID = EventID.from(anIn.eventID());
+    public void execute(String anIn) {
+        final EventID eventID = EventID.from(anIn);
 
         if(!eventGateway.existsById(eventID))
             throw NotFoundException.with(Event.class, eventID);

@@ -3,8 +3,7 @@ package br.com.ifsp.tickets.api.infra.contexts.event.presenters;
 import br.com.ifsp.tickets.api.app.event.retrieve.get.EventOutput;
 import br.com.ifsp.tickets.api.app.event.retrieve.list.EventListOutput;
 import br.com.ifsp.tickets.api.app.event.update.UpdateEventOutput;
-import br.com.ifsp.tickets.api.domain.event.entity.Event;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventRequest;
+import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.ListEventResponse;
 
@@ -16,7 +15,8 @@ public interface EventApiPresenter {
                 eventOutput.name(),
                 eventOutput.dateTime(),
                 eventOutput.guests(),
-                eventOutput.maxGuests()
+                eventOutput.maxGuests(),
+                eventOutput.soldTickets()
         );
     }
 
@@ -25,15 +25,17 @@ public interface EventApiPresenter {
                 eventListOutput.id(),
                 eventListOutput.name(),
                 eventListOutput.localDateTime(),
-                eventListOutput.maxGuests()
+                eventListOutput.maxGuests(),
+                eventListOutput.soldTickets()
         );
     }
 
-    static EditEventRequest present(final UpdateEventOutput eventOutput){
-        return new EditEventRequest(
+    static EditEventResponse present(final UpdateEventOutput eventOutput){
+        return new EditEventResponse(
                 eventOutput.name(),
                 eventOutput.dateTime(),
-                eventOutput.maxGuests()
+                eventOutput.maxGuests(),
+                eventOutput.soldTickets()
         );
     }
 }

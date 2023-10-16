@@ -8,7 +8,8 @@ public record UpdateEventOutput(
         String id,
         String name,
         LocalDateTime dateTime,
-        Integer maxGuests
+        Integer maxGuests,
+        Integer soldTickets
 ) {
 
     public static UpdateEventOutput from(final Event event) {
@@ -16,7 +17,8 @@ public record UpdateEventOutput(
                 event.getId().getValue().toString(),
                 event.getName(),
                 event.getDateTime(),
-                event.getMaxQuantGuests()
+                event.getMaxTickets(),
+                event.getSoldTickets()
         );
     }
 }

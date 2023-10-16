@@ -11,7 +11,8 @@ public record EventOutput(
         String name,
         LocalDateTime dateTime,
         Set<Guest> guests,
-        Integer maxGuests
+        Integer maxGuests,
+        Integer soldTickets
 ) {
 
     public static EventOutput from(final Event event){
@@ -20,7 +21,8 @@ public record EventOutput(
                 event.getName(),
                 event.getDateTime(),
                 event.getGuests(),
-                event.getMaxQuantGuests()
+                event.getMaxTickets(),
+                event.getSoldTickets()
         );
     }
 }

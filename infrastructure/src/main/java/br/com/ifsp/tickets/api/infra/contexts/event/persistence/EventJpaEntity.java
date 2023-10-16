@@ -1,7 +1,10 @@
 package br.com.ifsp.tickets.api.infra.contexts.event.persistence;
 
+import br.com.ifsp.tickets.api.domain.event.entity.Event;
+import br.com.ifsp.tickets.api.domain.event.entity.EventID;
 import br.com.ifsp.tickets.api.infra.contexts.guest.persistence.GuestJpaEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,10 +26,41 @@ public class EventJpaEntity implements Serializable {
     private String name;
     @Column(name = "date", nullable = false)
     private LocalDateTime dateTime;
-    @Column(nullable = false)
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<GuestJpaEntity> guests = new HashSet<>();
-    @Column(name = "max_guests",nullable = false)
+    @Column(name = "max_guests", nullable = false)
     private Integer maxGuests;
+    @Column(name = "sold_tickets", nullable = false)
+    private Integer soldTickets;
+
+
+    @Builder
+    public EventJpaEntity(UUID id, String name, LocalDateTime dateTime, Integer maxGuests, Integer soldTickets) {
+        this.id = id;
+        this.name = name;
+        this.dateTime = dateTime;
+        this.maxGuests = maxGuests;
+        this.soldTickets = soldTickets;
+    }
+
+
+    public static EventJpaEntity from(final Event event) {
+        return EventJpaEntity.builder()
+                .id(event.getId().getValue())
+                .name(event.getName())
+                .dateTime(event.getDateTime())
+                .maxGuests(event.getMaxTickets())
+                .soldTickets(event.getSoldTickets())
+                .build();
+    }
+
+    public Event toDomain(){
+        return Event.with(
+                new EventID(this.id),
+                this.getName(),
+                this.getDateTime(),
+                null,
+                this.getMaxGuests(),
+                this.getSoldTickets()
+        );
+    }
 
 }

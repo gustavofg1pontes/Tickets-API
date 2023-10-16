@@ -31,7 +31,7 @@ public class DefaultDeleteGuestUseCase extends DeleteGuestUseCase {
             throw NotFoundException.with(Guest.class, guestID);
 
         final Guest guest = guestGateway.findById(guestID).orElseThrow(notFound(guestID));
-        event.removeGuest(guest);
+        event.withdrawGuest(guest);
 
         this.guestGateway.deleteById(guestID);
         this.update(event);

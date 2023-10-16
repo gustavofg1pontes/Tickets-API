@@ -8,7 +8,8 @@ public record EventListOutput(
         String id,
         String name,
         LocalDateTime localDateTime,
-        Integer maxGuests
+        Integer maxGuests,
+        Integer soldTickets
 ) {
 
     public static EventListOutput from(final Event event){
@@ -16,7 +17,8 @@ public record EventListOutput(
                 event.getId().getValue().toString(),
                 event.getName(),
                 event.getDateTime(),
-                event.getMaxQuantGuests()
+                event.getMaxTickets(),
+                event.getSoldTickets()
         );
     }
 }

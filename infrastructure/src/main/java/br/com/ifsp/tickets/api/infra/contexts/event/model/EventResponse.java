@@ -13,6 +13,7 @@ public record EventResponse(
         @JsonProperty("name") String name,
         @JsonProperty("date") LocalDateTime localDateTime,
         @JsonProperty("guests") Set<Guest> guests,
-        @JsonProperty("maxGuests") Integer maxGuests
+        @JsonProperty("maxGuests") Integer maxGuests,
+        @JsonProperty("soldTickets") Integer soldTickets
 ) {
 }

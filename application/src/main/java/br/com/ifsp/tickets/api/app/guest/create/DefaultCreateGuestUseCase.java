@@ -29,13 +29,14 @@ public class DefaultCreateGuestUseCase extends CreateGuestUseCase {
         final String name = anIn.name();
         final Integer age = anIn.age();
         final String document = anIn.document();
+        final boolean blocked = anIn.blocked();
         final String phoneNumber = anIn.phoneNumber();
         final String email = anIn.email();
-        final String profile = anIn.profile();
+        final Profile profile = anIn.profile();
 
         final Event event = eventGateway.findById(eventID).orElseThrow(notFound(eventID));
-        final Guest guest = Guest.with(GuestID.unique(), name, age, document, phoneNumber,
-                email, Profile.valueOf(profile));
+        final Guest guest = Guest.with(GuestID.unique(), eventID, name, age, document, blocked, phoneNumber,
+                email, profile);
 
         final Notification notification = Notification.create();
         guest.validate(notification);

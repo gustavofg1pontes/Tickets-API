@@ -24,9 +24,10 @@ public class DefaultUpdateEventUseCase extends UpdateEventUseCase {
         final String name = anIn.name();
         final LocalDateTime dateTime = anIn.dateTime();
         final Integer maxGuests = anIn.maxGuests();
+        final Integer soldTickets = anIn.soldTickets();
 
         final Event event = eventGateway.findById(eventID).orElseThrow(notFound(eventID));
-        event.update(name, dateTime, maxGuests);
+        event.update(name, dateTime, maxGuests, soldTickets);
 
         final Notification notification = Notification.create();
         event.validate(notification);

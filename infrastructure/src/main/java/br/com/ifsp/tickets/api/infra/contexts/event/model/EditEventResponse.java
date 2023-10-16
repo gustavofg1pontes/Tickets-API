@@ -6,9 +6,10 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record EditEventRequest(
+public record EditEventResponse(
         @JsonProperty("name") String name,
         @JsonProperty("date") LocalDateTime localDateTime,
-        @JsonProperty("maxGuests") Integer maxGuests
+        @JsonProperty("maxGuests") Integer maxGuests,
+        @JsonProperty("soldTickets") Integer soldTickets
 ) {
 }

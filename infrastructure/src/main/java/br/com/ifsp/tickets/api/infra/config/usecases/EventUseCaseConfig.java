@@ -3,7 +3,6 @@ package br.com.ifsp.tickets.api.infra.config.usecases;
 import br.com.ifsp.tickets.api.app.event.create.CreateEventUseCase;
 import br.com.ifsp.tickets.api.app.event.create.DefaultCreateEventUseCase;
 import br.com.ifsp.tickets.api.app.event.delete.DefaultDeleteEventUseCase;
-import br.com.ifsp.tickets.api.app.event.delete.DeleteEventCommand;
 import br.com.ifsp.tickets.api.app.event.delete.DeleteEventUseCase;
 import br.com.ifsp.tickets.api.app.event.retrieve.get.DefaultGetEventByIdUseCase;
 import br.com.ifsp.tickets.api.app.event.retrieve.get.GetEventByIdUseCase;
