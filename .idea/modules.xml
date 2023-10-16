@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/br.com.ifsp.tickets.api.tickets-api.application.main.iml" filepath="$PROJECT_DIR$/.idea/modules/application/br.com.ifsp.tickets.api.tickets-api.application.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/br.com.ifsp.tickets.api.tickets-api.domain.main.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/br.com.ifsp.tickets.api.tickets-api.domain.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/infrastructure/br.com.ifsp.tickets.api.tickets-api.infrastructure.main.iml" filepath="$PROJECT_DIR$/.idea/modules/infrastructure/br.com.ifsp.tickets.api.tickets-api.infrastructure.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/tickets-api.application.main.iml" filepath="$PROJECT_DIR$/.idea/modules/application/tickets-api.application.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/tickets-api.domain.main.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/tickets-api.domain.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/infrastructure/tickets-api.infrastructure.main.iml" filepath="$PROJECT_DIR$/.idea/modules/infrastructure/tickets-api.infrastructure.main.iml" />

@@ -15,8 +15,8 @@ public class DefaultToggleBlockedGuestUseCase extends ToggleBlockedGuestUseCase{
     }
 
     @Override
-    public void execute(ToggleBlockedGuestCommand anIn) {
-        final GuestID guestID = GuestID.from(anIn.id());
+    public void execute(String anIn) {
+        final GuestID guestID = GuestID.from(anIn);
 
         final Guest guest = this.guestGateway.findById(guestID).orElseThrow(notFound(guestID));
         guest.toggleBlocked();

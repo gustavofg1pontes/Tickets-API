@@ -14,7 +14,7 @@ import br.com.ifsp.tickets.api.domain.shared.search.Pagination;
 import br.com.ifsp.tickets.api.domain.shared.search.SearchQuery;
 import br.com.ifsp.tickets.api.infra.api.EventAPI;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.CreateEventRequest;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventResponse;
+import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventRequest;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.ListEventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.presenters.EventApiPresenter;
@@ -39,7 +39,7 @@ public class EventController implements EventAPI {
     public ResponseEntity<?> createEvent(CreateEventRequest request) {
         final CreateEventCommand command = CreateEventCommand.with(
                 request.name(),
-                request.localDateTime(),
+                request.getDateTime(),
                 request.maxGuests()
         );
         final CreateEventOutput output = this.createEventUseCase.execute(command);
@@ -47,11 +47,11 @@ public class EventController implements EventAPI {
     }
 
     @Override
-    public ResponseEntity<EditEventResponse> editEvent(String id, EditEventResponse request) {
+    public ResponseEntity<EditEventRequest> editEvent(String id, EditEventRequest request) {
         final UpdateEventCommand command = UpdateEventCommand.from(
                 id,
                 request.name(),
-                request.localDateTime(),
+                request.getDateTime(),
                 request.maxGuests(),
                 request.soldTickets()
         );

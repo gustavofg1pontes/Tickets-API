@@ -11,10 +11,15 @@ import br.com.ifsp.tickets.api.infra.contexts.guest.persistence.GuestJpaEntity;
 import br.com.ifsp.tickets.api.infra.contexts.guest.persistence.GuestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static br.com.ifsp.tickets.api.infra.utils.SpecificationUtils.like;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -29,38 +34,61 @@ public class EventJpaGateway implements EventGateway {
 
     @Override
     public Optional<Event> findById(EventID EventID) {
-        return Optional.empty();
+        return this.eventRepository.findById(EventID.getValue()).map(EventJpaEntity::toDomain);
     }
 
     @Override
     public boolean existsById(EventID EventID) {
-        return false;
+        return this.eventRepository.existsById(EventID.getValue());
     }
 
     @Override
     public Pagination<Event> findAll(SearchQuery searchQuery) {
-        return null;
+        final var page = PageRequest.of(
+                searchQuery.page(),
+                searchQuery.perPage(),
+                Sort.by(Sort.Direction.fromString(searchQuery.direction()), searchQuery.sort())
+        );
+
+        final var specifications = Optional.ofNullable(searchQuery.terms())
+                .filter(str -> !str.isBlank())
+                .map(this::assembleSpecification)
+                .orElse(null);
+
+        final var pageResult = this.eventRepository.findAll(Specification.where(specifications), page);
+
+        return new Pagination<>(
+                pageResult.getNumber(),
+                pageResult.getSize(),
+                pageResult.getTotalElements(),
+                pageResult.map(EventJpaEntity::toDomain).toList()
+        );
     }
 
     @Override
     public Event update(Event Event) {
-        return null;
+        return this.save(Event);
     }
 
     @Override
     public void deleteById(EventID EventID) {
-
+        this.eventRepository.deleteById(EventID.getValue());
     }
 
     private Event save(Event event){
         final EventJpaEntity eventJpa = EventJpaEntity.from(event);
         Event event1 = this.eventRepository.save(eventJpa).toDomain();
         event1.setGuests(
-                guestRepository.findAllByEvent(eventJpa
-                        .getId())
+                guestRepository
+                        .findAllByEvent(eventJpa.getId())
                         .stream()
                         .map(GuestJpaEntity::toDomain)
                         .collect(Collectors.toSet()));
         return event1;
+    }
+
+    private Specification<EventJpaEntity> assembleSpecification(final String str) {
+        final Specification<EventJpaEntity> name = like("name", str);
+        return name;
     }
 }

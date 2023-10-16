@@ -15,7 +15,7 @@ public interface GuestRepository extends JpaRepository<GuestJpaEntity, UUID> {
 
     @Query(
             nativeQuery = true,
-            value = "SELECT '*' FROM tb_guests WHERE event_id = :#{#eventid}"
+            value = "SELECT * FROM cv_guests WHERE event_id = :#{#eventid}"
     )
     Set<GuestJpaEntity> findAllByEvent(@Param("eventid") UUID eventId);
 }

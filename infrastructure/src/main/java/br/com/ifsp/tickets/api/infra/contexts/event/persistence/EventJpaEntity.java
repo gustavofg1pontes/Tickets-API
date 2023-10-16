@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_events")
+@Table(name = "CV_EVENTS")
 @Getter
 @NoArgsConstructor
 public class EventJpaEntity implements Serializable {

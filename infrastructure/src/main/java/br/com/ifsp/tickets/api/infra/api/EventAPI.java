@@ -1,9 +1,8 @@
 package br.com.ifsp.tickets.api.infra.api;
 
-import br.com.ifsp.tickets.api.app.event.retrieve.list.EventListOutput;
 import br.com.ifsp.tickets.api.domain.shared.search.Pagination;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.CreateEventRequest;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventResponse;
+import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventRequest;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.ListEventResponse;
 import org.springframework.http.MediaType;
@@ -24,7 +23,7 @@ public interface EventAPI {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<EditEventResponse> editEvent(@PathVariable String id, @RequestBody EditEventResponse request);
+    ResponseEntity<EditEventRequest> editEvent(@PathVariable String id, @RequestBody EditEventRequest request);
 
     @GetMapping(
             value = "/{id}",

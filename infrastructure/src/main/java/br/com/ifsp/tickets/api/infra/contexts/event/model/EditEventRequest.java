@@ -9,10 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 @Builder
-public record CreateEventRequest(
+public record EditEventRequest(
         @JsonProperty("name") String name,
         @JsonProperty("date") String dateTime,
-        @JsonProperty("maxGuests") Integer maxGuests
+        @JsonProperty("maxGuests") Integer maxGuests,
+        @JsonProperty("soldTickets") Integer soldTickets
 ) {
 
     public LocalDateTime getDateTime() {
@@ -23,5 +24,4 @@ public record CreateEventRequest(
             return LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         }
     }
-
 }

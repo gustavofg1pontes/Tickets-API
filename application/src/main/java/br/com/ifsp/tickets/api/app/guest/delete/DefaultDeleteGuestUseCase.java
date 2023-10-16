@@ -21,16 +21,17 @@ public class DefaultDeleteGuestUseCase extends DeleteGuestUseCase {
     }
 
     @Override
-    public void execute(DeleteGuestCommand anIn) {
-        final GuestID guestID = GuestID.from(anIn.guestID());
-        final EventID eventID = EventID.from(anIn.eventID());
+    public void execute(String anIn) {
+        final GuestID guestID = GuestID.from(anIn);
 
-        final Event event = eventGateway.findById(eventID).orElseThrow(notFound(eventID));
 
         if (!this.guestGateway.existsById(guestID))
             throw NotFoundException.with(Guest.class, guestID);
-
         final Guest guest = guestGateway.findById(guestID).orElseThrow(notFound(guestID));
+
+        final Event event = eventGateway.findById(guest.getEventId())
+                .orElseThrow(notFound(guest.getEventId()));
+
         event.withdrawGuest(guest);
 
         this.guestGateway.deleteById(guestID);

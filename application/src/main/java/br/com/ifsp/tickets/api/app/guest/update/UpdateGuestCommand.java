@@ -10,7 +10,7 @@ public record UpdateGuestCommand (
         boolean blocked,
         String phoneNumber,
         String email,
-        String profile
+        Profile profile
 ) {
 
     public static UpdateGuestCommand from(final String id, final String name, final Integer age, final String document,
@@ -23,7 +23,7 @@ public record UpdateGuestCommand (
                 blocked,
                 phoneNumber,
                 email,
-                profile.name()
+                profile
         );
     }
 }
