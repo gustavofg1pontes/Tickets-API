@@ -4,6 +4,7 @@ import br.com.ifsp.tickets.api.domain.event.entity.EventID;
 import br.com.ifsp.tickets.api.domain.guest.entity.Guest;
 import br.com.ifsp.tickets.api.domain.guest.entity.GuestID;
 import br.com.ifsp.tickets.api.domain.guest.entity.profile.Profile;
+import br.com.ifsp.tickets.api.domain.shared.utils.UUIDUtils;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +21,7 @@ public class GuestJpaEntity {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
     @Column(name = "event_id", nullable = false)
-    private String eventId;
+    private UUID eventId;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -39,7 +40,7 @@ public class GuestJpaEntity {
     @Builder
     public GuestJpaEntity(UUID id, String eventId, String name, Integer age, String document, boolean blocked, String phoneNumber, String email, Integer profileId) {
         this.id = id;
-        this.eventId = eventId;
+        this.eventId = UUIDUtils.getFromString(eventId);
         this.name = name;
         this.age = age;
         this.document = document;
@@ -52,9 +53,9 @@ public class GuestJpaEntity {
     public static GuestJpaEntity from(final Guest guest){
         return GuestJpaEntity.builder()
                 .id(guest.getId().getValue())
+                .eventId(guest.getEventId().getValue().toString())
                 .name(guest.getName())
                 .age(guest.getAge())
-                .eventId(guest.getEventId().toString())
                 .document(guest.getDocument())
                 .blocked(guest.isBlocked())
                 .phoneNumber(guest.getPhoneNumber())
@@ -66,7 +67,7 @@ public class GuestJpaEntity {
     public Guest toDomain(){
         return Guest.with(
                 new GuestID(id),
-                EventID.from(eventId),
+                new EventID(eventId),
                 name,
                 age,
                 document,

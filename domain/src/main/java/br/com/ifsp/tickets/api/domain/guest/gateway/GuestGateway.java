@@ -1,11 +1,13 @@
 package br.com.ifsp.tickets.api.domain.guest.gateway;
 
+import br.com.ifsp.tickets.api.domain.event.entity.EventID;
 import br.com.ifsp.tickets.api.domain.guest.entity.Guest;
 import br.com.ifsp.tickets.api.domain.guest.entity.GuestID;
 import br.com.ifsp.tickets.api.domain.shared.search.Pagination;
 import br.com.ifsp.tickets.api.domain.shared.search.SearchQuery;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface GuestGateway {
     Guest create(final Guest aGuest);
@@ -19,4 +21,6 @@ public interface GuestGateway {
     Guest update(final Guest aGuest);
 
     void deleteById(final GuestID aGuestID);
+
+    Set<Guest> findAllByEventId(final EventID eventID);
 }

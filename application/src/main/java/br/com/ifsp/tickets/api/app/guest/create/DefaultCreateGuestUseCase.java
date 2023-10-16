@@ -44,6 +44,7 @@ public class DefaultCreateGuestUseCase extends CreateGuestUseCase {
         if (notification.hasError())
             throw new NotificationException("Could not create guest", notification);
 
+        this.guestGateway.create(guest);
         event.addGuest(guest);
         return CreateGuestOutput.from(this.update(event).getGuestById(guest.getId()));
     }

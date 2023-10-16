@@ -1,5 +1,7 @@
 package br.com.ifsp.tickets.api.infra.contexts.guest;
 
+import br.com.ifsp.tickets.api.domain.event.entity.Event;
+import br.com.ifsp.tickets.api.domain.event.entity.EventID;
 import br.com.ifsp.tickets.api.domain.guest.entity.Guest;
 import br.com.ifsp.tickets.api.domain.guest.entity.GuestID;
 import br.com.ifsp.tickets.api.domain.guest.gateway.GuestGateway;
@@ -15,6 +17,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static br.com.ifsp.tickets.api.infra.utils.SpecificationUtils.like;
 
@@ -26,12 +31,21 @@ public class GuestJpaGateway implements GuestGateway {
 
     @Override
     public Guest create(Guest aGuest) {
-        return this.create(aGuest);
+        return this.save(aGuest);
     }
 
     @Override
     public Optional<Guest> findById(GuestID aGuestID) {
         return this.guestRepository.findById(aGuestID.getValue()).map(GuestJpaEntity::toDomain);
+    }
+
+    @Override
+    public Set<Guest> findAllByEventId(EventID eventID) {
+        return this.guestRepository.findAllByEvent(
+                eventID.getValue())
+                .stream()
+                .map(GuestJpaEntity::toDomain)
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -71,6 +85,7 @@ public class GuestJpaGateway implements GuestGateway {
     public void deleteById(GuestID aGuestID) {
         this.guestRepository.deleteById(aGuestID.getValue());
     }
+
 
     private Guest save(Guest aGuest){
         final GuestJpaEntity guestJpaEntity = GuestJpaEntity.from(aGuest);

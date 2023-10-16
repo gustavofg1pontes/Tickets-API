@@ -5,6 +5,8 @@ import br.com.ifsp.tickets.api.infra.contexts.event.model.CreateEventRequest;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventRequest;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.ListEventResponse;
+import br.com.ifsp.tickets.api.infra.contexts.guest.model.CreateGuestRequest;
+import br.com.ifsp.tickets.api.infra.contexts.guest.model.GuestResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,4 +49,12 @@ public interface EventAPI {
             value = "/{idEvent}"
     )
     ResponseEntity<?> deleteEvent(@PathVariable String idEvent);
+
+    @PostMapping(
+            value = "/{idEvent}/addGuest",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<?> addGuest(@PathVariable String idEvent, @RequestBody CreateGuestRequest request);
+
 }

@@ -6,7 +6,6 @@ import lombok.Builder;
 
 @Builder
 public record CreateGuestRequest(
-        @JsonProperty("event_id") String eventID,
         @JsonProperty("name") String name,
         @JsonProperty("age") Integer age,
         @JsonProperty("document") String document,

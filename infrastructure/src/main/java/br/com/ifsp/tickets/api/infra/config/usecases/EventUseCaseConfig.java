@@ -11,6 +11,7 @@ import br.com.ifsp.tickets.api.app.event.retrieve.list.ListEventsUseCase;
 import br.com.ifsp.tickets.api.app.event.update.DefaultUpdateEventUseCase;
 import br.com.ifsp.tickets.api.app.event.update.UpdateEventUseCase;
 import br.com.ifsp.tickets.api.domain.event.gateway.EventGateway;
+import br.com.ifsp.tickets.api.domain.guest.gateway.GuestGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventUseCaseConfig {
     private final EventGateway eventGateway;
+    private final GuestGateway guestGateway;
 
     @Bean
     public CreateEventUseCase createEventUseCase(){
@@ -27,7 +29,7 @@ public class EventUseCaseConfig {
     }
     @Bean
     public GetEventByIdUseCase getEventByIdUseCase(){
-        return new DefaultGetEventByIdUseCase(eventGateway);
+        return new DefaultGetEventByIdUseCase(eventGateway, guestGateway);
     }
     @Bean
     public UpdateEventUseCase updateEventUseCase(){

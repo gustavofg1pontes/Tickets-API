@@ -1,6 +1,5 @@
 package br.com.ifsp.tickets.api.infra.contexts.guest.model;
 
-import br.com.ifsp.tickets.api.domain.guest.entity.profile.Profile;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 

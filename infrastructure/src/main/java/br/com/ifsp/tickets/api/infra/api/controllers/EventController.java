@@ -10,6 +10,9 @@ import br.com.ifsp.tickets.api.app.event.retrieve.list.ListEventsUseCase;
 import br.com.ifsp.tickets.api.app.event.update.UpdateEventCommand;
 import br.com.ifsp.tickets.api.app.event.update.UpdateEventOutput;
 import br.com.ifsp.tickets.api.app.event.update.UpdateEventUseCase;
+import br.com.ifsp.tickets.api.app.guest.create.CreateGuestCommand;
+import br.com.ifsp.tickets.api.app.guest.create.CreateGuestOutput;
+import br.com.ifsp.tickets.api.app.guest.create.CreateGuestUseCase;
 import br.com.ifsp.tickets.api.domain.shared.search.Pagination;
 import br.com.ifsp.tickets.api.domain.shared.search.SearchQuery;
 import br.com.ifsp.tickets.api.infra.api.EventAPI;
@@ -18,6 +21,7 @@ import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventRequest;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.ListEventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.presenters.EventApiPresenter;
+import br.com.ifsp.tickets.api.infra.contexts.guest.model.CreateGuestRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +38,8 @@ public class EventController implements EventAPI {
     private final GetEventByIdUseCase getEventByIdUseCase;
     private final ListEventsUseCase listEventsUseCase;
     private final UpdateEventUseCase updateEventUseCase;
+
+    private final CreateGuestUseCase createGuestUseCase;
 
     @Override
     public ResponseEntity<?> createEvent(CreateEventRequest request) {
@@ -76,5 +82,21 @@ public class EventController implements EventAPI {
     public ResponseEntity<?> deleteEvent(String idEvent) {
         this.deleteEventUseCase.execute(idEvent);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<?> addGuest(String idEvent, CreateGuestRequest request) {
+        final CreateGuestCommand command = CreateGuestCommand.with(
+                idEvent,
+                request.name(),
+                request.age(),
+                request.document(),
+                request.blocked(),
+                request.phoneNumber(),
+                request.email(),
+                request.getProfile()
+        );
+        final CreateGuestOutput output = this.createGuestUseCase.execute(command);
+        return ResponseEntity.created(URI.create("/ifsp/tickets" + output.id())).body(output);
     }
 }

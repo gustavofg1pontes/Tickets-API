@@ -6,6 +6,9 @@ import br.com.ifsp.tickets.api.app.event.update.UpdateEventOutput;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventRequest;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.ListEventResponse;
+import br.com.ifsp.tickets.api.infra.contexts.guest.presenters.GuestApiPresenter;
+
+import java.util.stream.Collectors;
 
 public interface EventApiPresenter {
     static EventResponse present(final EventOutput eventOutput) {
@@ -13,7 +16,7 @@ public interface EventApiPresenter {
                 eventOutput.id(),
                 eventOutput.name(),
                 eventOutput.dateTime(),
-                eventOutput.guests(),
+                eventOutput.guests().stream().map(GuestApiPresenter::present).collect(Collectors.toSet()),
                 eventOutput.maxGuests(),
                 eventOutput.soldTickets()
         );
