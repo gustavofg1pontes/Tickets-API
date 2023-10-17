@@ -20,4 +20,6 @@ public interface GuestAPI {
     )
     ResponseEntity<EditGuestResponse> editGuest(@PathVariable String id, @RequestBody EditGuestRequest request);
 
+
+
 }
