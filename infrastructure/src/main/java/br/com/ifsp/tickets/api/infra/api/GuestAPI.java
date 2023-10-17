@@ -20,6 +20,13 @@ public interface GuestAPI {
     )
     ResponseEntity<EditGuestResponse> editGuest(@PathVariable String id, @RequestBody EditGuestRequest request);
 
+    @PutMapping(
+            value = "/toggleblocked/{id}"
+    )
+    ResponseEntity<?> toggleBlocked(@PathVariable String id);
 
-
+    @PostMapping(
+            value = "/qrcode/{id}"
+    )
+    ResponseEntity<?> sendQR(@PathVariable String id);
 }

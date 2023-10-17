@@ -10,8 +10,12 @@ import br.com.ifsp.tickets.api.app.guest.retrieve.get.DefaultGetGuestByIdUseCase
 import br.com.ifsp.tickets.api.app.guest.retrieve.get.GetGuestByIdUseCase;
 import br.com.ifsp.tickets.api.app.guest.retrieve.list.DefaultListGuestsUseCase;
 import br.com.ifsp.tickets.api.app.guest.retrieve.list.ListGuestsUseCase;
+import br.com.ifsp.tickets.api.app.guest.toggle.DefaultToggleBlockedGuestUseCase;
+import br.com.ifsp.tickets.api.app.guest.toggle.ToggleBlockedGuestUseCase;
 import br.com.ifsp.tickets.api.app.guest.update.DefaultUpdateGuestUseCase;
 import br.com.ifsp.tickets.api.app.guest.update.UpdateGuestUseCase;
+import br.com.ifsp.tickets.api.app.guest.validate.DefaultValidateGuestQRUseCase;
+import br.com.ifsp.tickets.api.app.guest.validate.ValidateGuestQRUseCase;
 import br.com.ifsp.tickets.api.domain.event.gateway.EventGateway;
 import br.com.ifsp.tickets.api.domain.guest.gateway.GuestGateway;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +57,15 @@ public class GuestUseCaseConfig {
     @Bean
     public DeleteGuestByEventAndNameUseCase deleteGuestByEventAndNameUseCase() {
         return new DefaultDeleteGuestByEventAndNameUseCase(guestGateway, eventGateway);
+    }
+
+    @Bean
+    public ToggleBlockedGuestUseCase toggleBlockedGuestUseCase(){
+        return new DefaultToggleBlockedGuestUseCase(guestGateway);
+    }
+
+    @Bean
+    public ValidateGuestQRUseCase validateGuestQRUseCase(){
+        return new DefaultValidateGuestQRUseCase(guestGateway);
     }
 }
