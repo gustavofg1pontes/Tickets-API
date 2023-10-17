@@ -13,13 +13,12 @@ import br.com.ifsp.tickets.api.app.event.update.UpdateEventUseCase;
 import br.com.ifsp.tickets.api.app.guest.create.CreateGuestCommand;
 import br.com.ifsp.tickets.api.app.guest.create.CreateGuestOutput;
 import br.com.ifsp.tickets.api.app.guest.create.CreateGuestUseCase;
+import br.com.ifsp.tickets.api.app.guest.delete.eventIdAndName.DeleteGuestByEventAndNameCommand;
+import br.com.ifsp.tickets.api.app.guest.delete.eventIdAndName.DeleteGuestByEventAndNameUseCase;
 import br.com.ifsp.tickets.api.domain.shared.search.Pagination;
 import br.com.ifsp.tickets.api.domain.shared.search.SearchQuery;
 import br.com.ifsp.tickets.api.infra.api.EventAPI;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.CreateEventRequest;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventRequest;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.EventResponse;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.ListEventResponse;
+import br.com.ifsp.tickets.api.infra.contexts.event.model.*;
 import br.com.ifsp.tickets.api.infra.contexts.event.presenters.EventApiPresenter;
 import br.com.ifsp.tickets.api.infra.contexts.guest.model.CreateGuestRequest;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +39,7 @@ public class EventController implements EventAPI {
     private final UpdateEventUseCase updateEventUseCase;
 
     private final CreateGuestUseCase createGuestUseCase;
+    private final DeleteGuestByEventAndNameUseCase deleteGuestByEventAndNameUseCase;
 
     @Override
     public ResponseEntity<?> createEvent(CreateEventRequest request) {
@@ -53,7 +53,7 @@ public class EventController implements EventAPI {
     }
 
     @Override
-    public ResponseEntity<EditEventRequest> editEvent(String id, EditEventRequest request) {
+    public ResponseEntity<EditEventResponse> editEvent(String id, EditEventRequest request) {
         final UpdateEventCommand command = UpdateEventCommand.from(
                 id,
                 request.name(),
@@ -98,5 +98,15 @@ public class EventController implements EventAPI {
         );
         final CreateGuestOutput output = this.createGuestUseCase.execute(command);
         return ResponseEntity.created(URI.create("/ifsp/tickets" + output.id())).body(output);
+    }
+
+    @Override
+    public ResponseEntity<?> deleteGuestUsingEventAndName(String idEvent, String nameGuest) {
+        final DeleteGuestByEventAndNameCommand command = DeleteGuestByEventAndNameCommand.with(
+                idEvent,
+                nameGuest
+        );
+        this.deleteGuestByEventAndNameUseCase.execute(command);
+        return ResponseEntity.noContent().build();
     }
 }

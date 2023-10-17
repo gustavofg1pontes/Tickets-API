@@ -8,11 +8,13 @@ import br.com.ifsp.tickets.api.domain.shared.search.SearchQuery;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 public interface GuestGateway {
     Guest create(final Guest aGuest);
 
     Optional<Guest> findById(final GuestID aGuestID);
+    Optional<Guest> findByEventIdAndName(EventID eventID, String name);
 
     boolean existsById(final GuestID aGuestID);
 
@@ -21,6 +23,8 @@ public interface GuestGateway {
     Guest update(final Guest aGuest);
 
     void deleteById(final GuestID aGuestID);
+    void deleteByEventIdAndName(UUID eventId, String name);
 
     Set<Guest> findAllByEventId(final EventID eventID);
+
 }

@@ -40,6 +40,11 @@ public class GuestJpaGateway implements GuestGateway {
     }
 
     @Override
+    public Optional<Guest> findByEventIdAndName(EventID eventID, String name) {
+        return this.guestRepository.findByEventIdAndName(eventID.getValue(), name).map(GuestJpaEntity::toDomain);
+    }
+
+    @Override
     public Set<Guest> findAllByEventId(EventID eventID) {
         return this.guestRepository.findAllByEvent(
                 eventID.getValue())
@@ -84,6 +89,11 @@ public class GuestJpaGateway implements GuestGateway {
     @Override
     public void deleteById(GuestID aGuestID) {
         this.guestRepository.deleteById(aGuestID.getValue());
+    }
+
+    @Override
+    public void deleteByEventIdAndName(UUID eventId, String name) {
+        this.guestRepository.deleteByEventIdAndName(eventId, name);
     }
 
 

@@ -4,6 +4,7 @@ import br.com.ifsp.tickets.api.app.event.retrieve.get.EventOutput;
 import br.com.ifsp.tickets.api.app.event.retrieve.list.EventListOutput;
 import br.com.ifsp.tickets.api.app.event.update.UpdateEventOutput;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventRequest;
+import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.EventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.ListEventResponse;
 import br.com.ifsp.tickets.api.infra.contexts.guest.presenters.GuestApiPresenter;
@@ -32,10 +33,11 @@ public interface EventApiPresenter {
         );
     }
 
-    static EditEventRequest present(final UpdateEventOutput eventOutput) {
-        return new EditEventRequest(
+    static EditEventResponse present(final UpdateEventOutput eventOutput) {
+        return new EditEventResponse(
+                eventOutput.id(),
                 eventOutput.name(),
-                eventOutput.dateTime().toString(),
+                eventOutput.dateTime(),
                 eventOutput.maxGuests(),
                 eventOutput.soldTickets()
         );

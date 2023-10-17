@@ -1,10 +1,7 @@
 package br.com.ifsp.tickets.api.infra.api;
 
 import br.com.ifsp.tickets.api.domain.shared.search.Pagination;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.CreateEventRequest;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.EditEventRequest;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.EventResponse;
-import br.com.ifsp.tickets.api.infra.contexts.event.model.ListEventResponse;
+import br.com.ifsp.tickets.api.infra.contexts.event.model.*;
 import br.com.ifsp.tickets.api.infra.contexts.guest.model.CreateGuestRequest;
 import br.com.ifsp.tickets.api.infra.contexts.guest.model.GuestResponse;
 import org.springframework.http.MediaType;
@@ -25,7 +22,7 @@ public interface EventAPI {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<EditEventRequest> editEvent(@PathVariable String id, @RequestBody EditEventRequest request);
+    ResponseEntity<EditEventResponse> editEvent(@PathVariable String id, @RequestBody EditEventRequest request);
 
     @GetMapping(
             value = "/{id}",
@@ -57,4 +54,8 @@ public interface EventAPI {
     )
     ResponseEntity<?> addGuest(@PathVariable String idEvent, @RequestBody CreateGuestRequest request);
 
+    @DeleteMapping(
+            value = "/{idEvent}/deleteGuest/{nameGuest}"
+    )
+    ResponseEntity<?> deleteGuestUsingEventAndName(@PathVariable String idEvent, @PathVariable String nameGuest);
 }
