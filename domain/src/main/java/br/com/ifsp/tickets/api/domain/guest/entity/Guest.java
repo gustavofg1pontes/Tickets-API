@@ -19,6 +19,8 @@ public class Guest extends AggregateRoot<GuestID> {
     private String phoneNumber;
     private String email;
     private Profile profile;
+    private boolean hasEntered;
+    private boolean hasLeft;
 
     public Guest(GuestID guestID, String name, EventID eventId, Integer age, String document, boolean blocked, String phoneNumber, String email, Profile profile) {
         super(guestID);
@@ -30,6 +32,8 @@ public class Guest extends AggregateRoot<GuestID> {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.profile = profile;
+        this.hasEntered = false;
+        this.hasLeft = false;
     }
 
     public static Guest with(GuestID guestID, EventID eventId, String name, Integer age, String document, boolean blocked, String phoneNumber, String email, Profile profile) {
@@ -48,6 +52,12 @@ public class Guest extends AggregateRoot<GuestID> {
 
     public void toggleBlocked(){
         this.blocked = !this.blocked;
+    }
+    public void toggleEnter(){
+        this.hasEntered = !this.hasEntered;
+    }
+    public void toggleLeft(){
+        this.hasLeft = !this.hasLeft;
     }
     @Override
     public void validate(ValidationHandler handler) {

@@ -30,6 +30,10 @@ public class GuestJpaEntity {
     private String document;
     @Column(nullable = false)
     private boolean blocked;
+    @Column(name = "has_entered", nullable = false)
+    private boolean hasEntered;
+    @Column(name = "has_left", nullable = false)
+    private boolean hasLeft;
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
     @Column(nullable = false)

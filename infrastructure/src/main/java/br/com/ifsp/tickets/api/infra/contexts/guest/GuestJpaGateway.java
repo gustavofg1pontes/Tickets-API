@@ -92,6 +92,11 @@ public class GuestJpaGateway implements GuestGateway {
     }
 
     @Override
+    public void deleteAllByEvent(EventID eventID) {
+        this.guestRepository.deleteAllByEvent(eventID.getValue());
+    }
+
+    @Override
     public void deleteByEventIdAndName(UUID eventId, String name) {
         this.guestRepository.deleteByEventIdAndName(eventId, name);
     }

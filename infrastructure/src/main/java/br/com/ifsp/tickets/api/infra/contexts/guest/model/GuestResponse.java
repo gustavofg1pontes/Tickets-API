@@ -11,6 +11,8 @@ public record GuestResponse(
         @JsonProperty("age") Integer age,
         @JsonProperty("document") String document,
         @JsonProperty("blocked") boolean blocked,
+        @JsonProperty("has_entered") boolean hasEntered,
+        @JsonProperty("has_left") boolean hasLeft,
         @JsonProperty("phone_number") String phoneNumber,
         @JsonProperty("email") String email,
         @JsonProperty("profile") String profile

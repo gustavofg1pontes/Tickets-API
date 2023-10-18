@@ -2,10 +2,13 @@ CREATE TABLE tickets.cv_guests
 (
     id           uuid    not null primary key,
     event_id     uuid    not null,
+    enter_id     serial  not null,
     name         varchar not null,
     age          integer not null,
     document     varchar not null,
     blocked      bool    not null,
+    entered      bool    not null,
+    left         bool    not null,
     phone_number varchar not null,
     email        varchar not null,
     profile_id   integer not null

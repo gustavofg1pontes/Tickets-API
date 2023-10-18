@@ -20,6 +20,11 @@ public interface GuestRepository extends JpaRepository<GuestJpaEntity, UUID> {
             value = "SELECT * FROM cv_guests WHERE event_id = :#{#eventid}"
     )
     Set<GuestJpaEntity> findAllByEvent(@Param("eventid") UUID eventId);
+    @Query(
+            nativeQuery = true,
+            value = "DELETE FROM cv_guests WHERE event_id = :#{#eventid}"
+    )
+    void deleteAllByEvent(@Param("eventid") UUID eventId);
 
     @Transactional
     Optional<GuestJpaEntity> findByEventIdAndName(UUID eventId, String name);

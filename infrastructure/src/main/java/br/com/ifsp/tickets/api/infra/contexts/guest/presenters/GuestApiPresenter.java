@@ -17,6 +17,8 @@ public interface GuestApiPresenter {
                 guestOutput.age(),
                 guestOutput.document(),
                 guestOutput.blocked(),
+                guestOutput.hasEntered(),
+                guestOutput.hasLeft(),
                 guestOutput.phoneNumber(),
                 guestOutput.email(),
                 guestOutput.profile());

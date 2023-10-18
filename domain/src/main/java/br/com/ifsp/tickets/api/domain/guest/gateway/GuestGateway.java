@@ -1,5 +1,6 @@
 package br.com.ifsp.tickets.api.domain.guest.gateway;
 
+import br.com.ifsp.tickets.api.domain.event.entity.Event;
 import br.com.ifsp.tickets.api.domain.event.entity.EventID;
 import br.com.ifsp.tickets.api.domain.guest.entity.Guest;
 import br.com.ifsp.tickets.api.domain.guest.entity.GuestID;
@@ -23,6 +24,7 @@ public interface GuestGateway {
     Guest update(final Guest aGuest);
 
     void deleteById(final GuestID aGuestID);
+    void deleteAllByEvent(final EventID eventID);
     void deleteByEventIdAndName(UUID eventId, String name);
 
     Set<Guest> findAllByEventId(final EventID eventID);

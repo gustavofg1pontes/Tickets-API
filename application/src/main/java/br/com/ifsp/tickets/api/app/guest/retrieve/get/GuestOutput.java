@@ -10,6 +10,8 @@ public record GuestOutput (
         Integer age,
         String document,
         boolean blocked,
+        boolean hasEntered,
+        boolean hasLeft,
         String phoneNumber,
         String email,
         String profile
@@ -22,6 +24,8 @@ public record GuestOutput (
                 guest.getAge(),
                 guest.getDocument(),
                 guest.isBlocked(),
+                guest.isHasEntered(),
+                guest.isHasLeft(),
                 guest.getPhoneNumber(),
                 guest.getEmail(),
                 guest.getProfile().name()

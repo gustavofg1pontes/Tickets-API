@@ -22,18 +22,15 @@ public class DefaultValidateGuestQRUseCase extends ValidateGuestQRUseCase{
     public ValidateGuestQROutput execute(String anIn) {
         final GuestID guestID = GuestID.from(anIn);
 
-        if(!guestGateway.existsById(guestID))
-            throw NotFoundException.with(Guest.class, guestID);
-
         final Guest guest = guestGateway.findById(guestID).orElseThrow(notFound(guestID));
 
         final Notification notification = Notification.create();
         guest.validate(notification);
 
         if (notification.hasError())
-            throw new NotificationException("Could not create guest", notification);
+            throw new NotificationException("Could not create guest's qr code", notification);
 
-        return ValidateGuestQROutput.from(QRCodeGenerator.generateQRCode(anIn), guest.getEmail());
+        return ValidateGuestQROutput.from(QRCodeGenerator.generateQRCode(anIn), guest.getName(), guest.getEmail());
     }
 
     private Supplier<NotFoundException> notFound(final GuestID anId) {

@@ -13,11 +13,15 @@ import br.com.ifsp.tickets.api.app.event.update.UpdateEventUseCase;
 import br.com.ifsp.tickets.api.app.guest.create.CreateGuestCommand;
 import br.com.ifsp.tickets.api.app.guest.create.CreateGuestOutput;
 import br.com.ifsp.tickets.api.app.guest.create.CreateGuestUseCase;
+import br.com.ifsp.tickets.api.app.guest.delete.event.DeleteGuestsByEventUseCase;
 import br.com.ifsp.tickets.api.app.guest.delete.eventIdAndName.DeleteGuestByEventAndNameCommand;
 import br.com.ifsp.tickets.api.app.guest.delete.eventIdAndName.DeleteGuestByEventAndNameUseCase;
+import br.com.ifsp.tickets.api.app.guest.validate.ValidateGuestQROutput;
+import br.com.ifsp.tickets.api.app.guest.validate.ValidateGuestQRUseCase;
 import br.com.ifsp.tickets.api.domain.shared.search.Pagination;
 import br.com.ifsp.tickets.api.domain.shared.search.SearchQuery;
 import br.com.ifsp.tickets.api.infra.api.EventAPI;
+import br.com.ifsp.tickets.api.infra.config.auth.EmailService;
 import br.com.ifsp.tickets.api.infra.contexts.event.model.*;
 import br.com.ifsp.tickets.api.infra.contexts.event.presenters.EventApiPresenter;
 import br.com.ifsp.tickets.api.infra.contexts.guest.model.CreateGuestRequest;
@@ -38,8 +42,12 @@ public class EventController implements EventAPI {
     private final ListEventsUseCase listEventsUseCase;
     private final UpdateEventUseCase updateEventUseCase;
 
+    private final DeleteGuestsByEventUseCase deleteGuestsByEventUseCase;
+    private final ValidateGuestQRUseCase validateGuestQRUseCase;
     private final CreateGuestUseCase createGuestUseCase;
     private final DeleteGuestByEventAndNameUseCase deleteGuestByEventAndNameUseCase;
+
+    private final EmailService emailService;
 
     @Override
     public ResponseEntity<?> createEvent(CreateEventRequest request) {
@@ -80,23 +88,36 @@ public class EventController implements EventAPI {
 
     @Override
     public ResponseEntity<?> deleteEvent(String idEvent) {
+        this.deleteGuestsByEventUseCase.execute(idEvent);
         this.deleteEventUseCase.execute(idEvent);
         return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<?> addGuest(String idEvent, CreateGuestRequest request) {
-        final CreateGuestCommand command = CreateGuestCommand.with(
-                idEvent,
-                request.name(),
-                request.age(),
-                request.document(),
-                request.blocked(),
-                request.phoneNumber(),
-                request.email(),
-                request.getProfile()
-        );
-        final CreateGuestOutput output = this.createGuestUseCase.execute(command);
+        CreateGuestCommand command;
+        CreateGuestOutput output = null;
+        EventOutput event = null;
+        try {
+            command = CreateGuestCommand.with(
+                    idEvent,
+                    request.name(),
+                    request.age(),
+                    request.document(),
+                    request.blocked(),
+                    request.phoneNumber(),
+                    request.email(),
+                    request.getProfile()
+            );
+            output = this.createGuestUseCase.execute(command);
+            event = this.getEventByIdUseCase.execute(command.eventID());
+            ValidateGuestQROutput qrOutput = this.validateGuestQRUseCase.execute(output.id());
+            emailService.sendEmailWithQRCode(qrOutput, "Ticket Event IFSP: " + event.name(), EmailService.valid(command.name()));
+        }catch (Exception er){
+            emailService.sendEmail(request.email(),
+                    "Ticket Event IFSP: " + event.name(),
+                    EmailService.notValid(request.name()));
+        }
         return ResponseEntity.created(URI.create("/ifsp/tickets" + output.id())).body(output);
     }
 
