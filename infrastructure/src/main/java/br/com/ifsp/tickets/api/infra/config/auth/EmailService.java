@@ -67,7 +67,7 @@ public class EmailService {
         return "<div>" +
                 "Olá, <b>" + name + "</b>" +
                 ", sentimos dizer que o seu cadastro não foi realizado com sucesso..." +
-                " Contate alguém do grêmio para poder participar do evento!"+
+                " Tente novamente e, caso necessário, contate alguém do grêmio para poder participar do evento!"+
                 "</div>";
     }
 }

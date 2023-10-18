@@ -16,20 +16,10 @@ public class GuestValidator extends Validator {
 
     @Override
     public void validate() {
-        this.checkDocumentConstraints();
         this.checkPhoneNumberConstraints();
         this.checkEmailConstraints();
     }
 
-    private void checkDocumentConstraints() {
-        if (guest.getDocument() == null)
-            this.appendError(new Error("Document shouldn't be null"));
-        else {
-            final String document = guest.getDocument();
-            if (document.isBlank()) this.appendError(new Error("'document' should not be empty"));
-            if (!ValidationUtils.isValidDocument(document)) this.appendError(new Error("'document' is not a valid document"));
-        }
-    }
 
     private void checkPhoneNumberConstraints(){
         if (guest.getPhoneNumber() == null){
