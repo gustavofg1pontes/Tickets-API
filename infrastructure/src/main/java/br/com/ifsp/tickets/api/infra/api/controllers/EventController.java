@@ -95,11 +95,9 @@ public class EventController implements EventAPI {
 
     @Override
     public ResponseEntity<?> addGuest(String idEvent, CreateGuestRequest request) {
-        CreateGuestCommand command;
-        CreateGuestOutput output = null;
-        EventOutput event = null;
+        EventOutput event = this.getEventByIdUseCase.execute(idEvent);
         try {
-            command = CreateGuestCommand.with(
+            CreateGuestCommand command = CreateGuestCommand.with(
                     idEvent,
                     request.name(),
                     request.age(),
@@ -109,16 +107,16 @@ public class EventController implements EventAPI {
                     request.email(),
                     request.getProfile()
             );
-            output = this.createGuestUseCase.execute(command);
-            event = this.getEventByIdUseCase.execute(command.eventID());
+            CreateGuestOutput output = this.createGuestUseCase.execute(command);
             ValidateGuestQROutput qrOutput = this.validateGuestQRUseCase.execute(output.id());
             emailService.sendEmailWithQRCode(qrOutput, "Ticket Event IFSP: " + event.name(), EmailService.valid(command.name()));
+            return ResponseEntity.created(URI.create("/ifsp/tickets" + output.id())).body(output);
         }catch (Exception er){
             emailService.sendEmail(request.email(),
-                    "Ticket Event IFSP: " + event.name(),
+                    "Ticket Event IFSP failed: " + event.name(),
                     EmailService.notValid(request.name()));
         }
-        return ResponseEntity.created(URI.create("/ifsp/tickets" + output.id())).body(output);
+        return ResponseEntity.noContent().build();
     }
 
     @Override
