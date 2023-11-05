@@ -60,7 +60,6 @@ public class GuestController implements GuestAPI {
                 request.name(),
                 request.age(),
                 request.document(),
-                request.blocked(),
                 request.phoneNumber(),
                 request.email(),
                 request.getProfile()

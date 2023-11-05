@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public record CreateEventRequest(
         @JsonProperty("name") String name,
         @JsonProperty("date") String dateTime,
-        @JsonProperty("maxGuests") Integer maxGuests
+        @JsonProperty("max_guests") Integer maxGuests
 ) {
 
     public LocalDateTime getDateTime() {

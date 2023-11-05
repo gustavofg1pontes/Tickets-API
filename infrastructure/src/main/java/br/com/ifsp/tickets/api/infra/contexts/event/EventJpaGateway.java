@@ -24,8 +24,8 @@ import static br.com.ifsp.tickets.api.infra.utils.SpecificationUtils.like;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventJpaGateway implements EventGateway {
+
     private final EventRepository eventRepository;
-    private final GuestRepository guestRepository;
 
     @Override
     public Event create(Event aEvent) {
@@ -77,14 +77,7 @@ public class EventJpaGateway implements EventGateway {
 
     private Event save(Event event){
         final EventJpaEntity eventJpa = EventJpaEntity.from(event);
-        Event event1 = this.eventRepository.save(eventJpa).toDomain();
-        event1.setGuests(
-                guestRepository
-                        .findAllByEvent(eventJpa.getId())
-                        .stream()
-                        .map(GuestJpaEntity::toDomain)
-                        .collect(Collectors.toSet()));
-        return event1;
+        return this.eventRepository.save(eventJpa).toDomain();
     }
 
     private Specification<EventJpaEntity> assembleSpecification(final String str) {

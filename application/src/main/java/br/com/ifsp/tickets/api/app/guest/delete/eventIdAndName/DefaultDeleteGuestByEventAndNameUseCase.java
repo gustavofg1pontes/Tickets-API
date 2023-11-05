@@ -25,19 +25,15 @@ public class DefaultDeleteGuestByEventAndNameUseCase extends DeleteGuestByEventA
         final EventID eventID = EventID.from(anIn.eventId());
         final String name = anIn.name();
 
-
         if (!this.eventGateway.existsById(eventID))
             throw NotFoundException.with(Event.class, eventID);
 
         final Guest guest = guestGateway.findByEventIdAndName(eventID, name).orElseThrow(notFound(eventID, name));
-        System.out.println(guest.getId().getValue());
-        final Event event = eventGateway.findById(guest.getEventId())
-                .orElseThrow(notFound(guest.getEventId()));
-        event.setGuests(this.guestGateway.findAllByEventId(event.getId()));
+        final Event event = eventGateway.findById(guest.getEventId()).orElseThrow(notFound(guest.getEventId()));
 
-        event.withdrawGuest(guest);
-        this.guestGateway.deleteByEventIdAndName(eventID.getValue(), name);
+        event.removeTicketSold();
         this.update(event);
+        this.guestGateway.deleteByEventIdAndName(eventID.getValue(), name);
     }
 
     private void update(final Event event){
@@ -51,7 +47,7 @@ public class DefaultDeleteGuestByEventAndNameUseCase extends DeleteGuestByEventA
     }
 
     private Supplier<NotFoundException> notFound(final EventID eventID, String name) {
-        return () -> NotFoundException.with(new Error("guest not found"));
+        return () -> NotFoundException.with(new Error("Guest not found by [eventID:%s] and [name:%s]".formatted(eventID, name)));
     }
     private Supplier<NotFoundException> notFound(final EventID anId) {
         return () -> NotFoundException.with(Event.class, anId);

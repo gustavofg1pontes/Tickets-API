@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 public record EditEventRequest(
         @JsonProperty("name") String name,
         @JsonProperty("date") String dateTime,
-        @JsonProperty("maxGuests") Integer maxGuests,
-        @JsonProperty("soldTickets") Integer soldTickets
+        @JsonProperty("max_guests") Integer maxGuests,
+        @JsonProperty("sold_tickets") Integer soldTickets
 ) {
 
     public LocalDateTime getDateTime() {

@@ -28,17 +28,17 @@ public interface GuestAPI {
     )
     ResponseEntity<EditGuestResponse> editGuest(@PathVariable String id, @RequestBody EditGuestRequest request);
 
-    @PutMapping(
+    @PatchMapping(
             value = "/toggle/blocked/{id}"
     )
     ResponseEntity<?> toggleBlocked(@PathVariable String id);
 
-    @PutMapping(
+    @PatchMapping(
             value = "/toggle/enter/{id}"
     )
     ResponseEntity<?> toggleEnter(@PathVariable String id);
 
-    @PutMapping(
+    @PatchMapping(
             value = "/toggle/left/{id}"
     )
     ResponseEntity<?> toggleLeft(@PathVariable String id);

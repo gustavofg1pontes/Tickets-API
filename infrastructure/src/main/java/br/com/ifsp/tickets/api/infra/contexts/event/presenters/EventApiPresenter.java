@@ -17,7 +17,6 @@ public interface EventApiPresenter {
                 eventOutput.id(),
                 eventOutput.name(),
                 eventOutput.dateTime(),
-                eventOutput.guests().stream().map(GuestApiPresenter::present).collect(Collectors.toSet()),
                 eventOutput.maxGuests(),
                 eventOutput.soldTickets()
         );

@@ -8,17 +8,17 @@ import br.com.ifsp.tickets.api.infra.contexts.guest.model.GuestResponse;
 import br.com.ifsp.tickets.api.infra.contexts.guest.model.ListGuestResponse;
 
 public interface GuestApiPresenter {
-
     static GuestResponse present(final GuestOutput guestOutput) {
         return new GuestResponse(
                 guestOutput.id(),
                 guestOutput.eventId(),
+                guestOutput.enterId(),
                 guestOutput.name(),
                 guestOutput.age(),
                 guestOutput.document(),
-                guestOutput.blocked(),
-                guestOutput.hasEntered(),
-                guestOutput.hasLeft(),
+                guestOutput.isBlocked(),
+                guestOutput.isEntered(),
+                guestOutput.isLeft(),
                 guestOutput.phoneNumber(),
                 guestOutput.email(),
                 guestOutput.profile());
@@ -28,10 +28,13 @@ public interface GuestApiPresenter {
         return new ListGuestResponse(
                 guestOutput.id(),
                 guestOutput.eventId(),
+                guestOutput.enterId(),
                 guestOutput.name(),
                 guestOutput.age(),
                 guestOutput.document(),
-                guestOutput.blocked(),
+                guestOutput.isBlocked(),
+                guestOutput.isEntered(),
+                guestOutput.isLeft(),
                 guestOutput.phoneNumber(),
                 guestOutput.email(),
                 guestOutput.profile()
@@ -42,10 +45,13 @@ public interface GuestApiPresenter {
         return new EditGuestResponse(
                 guestOutput.id(),
                 guestOutput.eventId(),
+                guestOutput.enterId(),
                 guestOutput.name(),
                 guestOutput.age(),
                 guestOutput.document(),
-                guestOutput.blocked(),
+                guestOutput.isBlocked(),
+                guestOutput.isEntered(),
+                guestOutput.isLeft(),
                 guestOutput.phoneNumber(),
                 guestOutput.email(),
                 guestOutput.profile()

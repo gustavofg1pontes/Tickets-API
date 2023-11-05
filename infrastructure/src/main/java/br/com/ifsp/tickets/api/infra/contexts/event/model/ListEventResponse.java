@@ -10,7 +10,7 @@ public record ListEventResponse(
         @JsonProperty("id") String id,
         @JsonProperty("name") String name,
         @JsonProperty("date") LocalDateTime localDateTime,
-        @JsonProperty("maxGuests") Integer maxGuests,
-        @JsonProperty("soldTickets") Integer soldTickets
+        @JsonProperty("max_guests") Integer maxGuests,
+        @JsonProperty("sold_tickets") Integer soldTickets
 ) {
 }

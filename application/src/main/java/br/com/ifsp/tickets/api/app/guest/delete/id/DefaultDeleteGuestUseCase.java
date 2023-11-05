@@ -24,19 +24,15 @@ public class DefaultDeleteGuestUseCase extends DeleteGuestUseCase {
     public void execute(String anIn) {
         final GuestID guestID = GuestID.from(anIn);
 
-
         if (!this.guestGateway.existsById(guestID))
             throw NotFoundException.with(Guest.class, guestID);
+
         final Guest guest = guestGateway.findById(guestID).orElseThrow(notFound(guestID));
+        final Event event = eventGateway.findById(guest.getEventId()).orElseThrow(notFound(guest.getEventId()));
 
-        final Event event = eventGateway.findById(guest.getEventId())
-                .orElseThrow(notFound(guest.getEventId()));
-        event.setGuests(this.guestGateway.findAllByEventId(event.getId()));
-
-
-        event.withdrawGuest(guest);
-        this.guestGateway.deleteById(guestID);
+        event.removeTicketSold();
         this.update(event);
+        this.guestGateway.deleteById(guestID);
     }
 
     private void update(final Event event){

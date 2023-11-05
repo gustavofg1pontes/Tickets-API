@@ -21,7 +21,7 @@ public class DefaultCreateEventUseCase extends CreateEventUseCase {
         final LocalDateTime dateTime = anIn.dateTime();
         final Integer maxGuests = anIn.maxGuests();
 
-        final Event event = Event.with(EventID.unique(), name, dateTime, null, maxGuests, 0);
+        final Event event = Event.with(EventID.unique(), name, dateTime, maxGuests, 0);
 
         final Notification notification = Notification.create();
         event.validate(notification);

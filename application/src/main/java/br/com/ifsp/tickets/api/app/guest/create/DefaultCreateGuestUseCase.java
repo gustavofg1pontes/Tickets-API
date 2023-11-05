@@ -29,13 +29,12 @@ public class DefaultCreateGuestUseCase extends CreateGuestUseCase {
         final String name = anIn.name();
         final Integer age = anIn.age();
         final String document = anIn.document();
-        final boolean blocked = anIn.blocked();
         final String phoneNumber = anIn.phoneNumber();
         final String email = anIn.email();
         final Profile profile = anIn.profile();
 
         final Event event = eventGateway.findById(eventID).orElseThrow(notFound(eventID));
-        final Guest guest = Guest.with(GuestID.unique(), eventID, name, age, document, blocked, phoneNumber,
+        final Guest guest = Guest.with(GuestID.unique(), eventID, null, name, age, document, false, false, false, phoneNumber,
                 email, profile);
 
         final Notification notification = Notification.create();
@@ -44,14 +43,14 @@ public class DefaultCreateGuestUseCase extends CreateGuestUseCase {
         if (notification.hasError())
             throw new NotificationException("Could not create guest", notification);
 
-        this.guestGateway.create(guest);
-        event.addGuest(guest);
-        return CreateGuestOutput.from(this.update(event).getGuestById(guest.getId()));
+        event.addTicketSold();
+        this.update(event);
+        return CreateGuestOutput.from(this.create(guest));
     }
 
-    private Event update(final Event event){
+    private void update(final Event event){
         try{
-            return this.eventGateway.update(event);
+            this.eventGateway.update(event);
         }catch (final Throwable t){
             throw InternalErrorException.with(
                     "an error on update event was observed [eventID:%s]".formatted(event.getId().getValue()),
@@ -70,9 +69,6 @@ public class DefaultCreateGuestUseCase extends CreateGuestUseCase {
         }
     }
 
-    private Supplier<NotFoundException> notFound(final GuestID anId) {
-        return () -> NotFoundException.with(Guest.class, anId);
-    }
     private Supplier<NotFoundException> notFound(final EventID anId) {
         return () -> NotFoundException.with(Event.class, anId);
     }

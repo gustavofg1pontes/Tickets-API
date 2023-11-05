@@ -19,10 +19,11 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 public class EventJpaEntity implements Serializable {
+
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "date", nullable = false)
     private LocalDateTime dateTime;
@@ -30,7 +31,6 @@ public class EventJpaEntity implements Serializable {
     private Integer maxGuests;
     @Column(name = "sold_tickets", nullable = false)
     private Integer soldTickets;
-
 
     @Builder
     public EventJpaEntity(UUID id, String name, LocalDateTime dateTime, Integer maxGuests, Integer soldTickets) {
@@ -40,7 +40,6 @@ public class EventJpaEntity implements Serializable {
         this.maxGuests = maxGuests;
         this.soldTickets = soldTickets;
     }
-
 
     public static EventJpaEntity from(final Event event) {
         return EventJpaEntity.builder()
@@ -57,7 +56,6 @@ public class EventJpaEntity implements Serializable {
                 new EventID(this.id),
                 this.getName(),
                 this.getDateTime(),
-                null,
                 this.getMaxGuests(),
                 this.getSoldTickets()
         );

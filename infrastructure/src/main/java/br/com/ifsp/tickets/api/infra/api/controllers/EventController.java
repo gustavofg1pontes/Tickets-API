@@ -102,7 +102,6 @@ public class EventController implements EventAPI {
                     request.name(),
                     request.age(),
                     request.document(),
-                    request.blocked(),
                     request.phoneNumber(),
                     request.email(),
                     request.getProfile()

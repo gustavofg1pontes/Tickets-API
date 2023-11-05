@@ -12,7 +12,6 @@ public record EventOutput(
         String id,
         String name,
         LocalDateTime dateTime,
-        Set<GuestOutput> guests,
         Integer maxGuests,
         Integer soldTickets
 ) {
@@ -22,20 +21,9 @@ public record EventOutput(
                 event.getId().getValue().toString(),
                 event.getName(),
                 event.getDateTime(),
-                event.getGuests().stream().map(GuestOutput::from).collect(Collectors.toSet()),
                 event.getMaxTickets(),
                 event.getSoldTickets()
         );
     }
 
-    public static EventOutput from(final Event event, Set<Guest> guests){
-        return new EventOutput(
-                event.getId().getValue().toString(),
-                event.getName(),
-                event.getDateTime(),
-                guests.stream().map(GuestOutput::from).collect(Collectors.toSet()),
-                event.getMaxTickets(),
-                event.getSoldTickets()
-        );
-    }
 }

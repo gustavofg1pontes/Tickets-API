@@ -1,22 +1,21 @@
-CREATE TABLE tickets.cv_guests
+CREATE TABLE cv_guests
 (
     id           uuid    not null primary key,
     event_id     uuid    not null,
-    enter_id     serial  not null,
+    enter_id     serial,
     name         varchar not null,
     age          integer not null,
-    document     varchar not null,
-    blocked      bool    not null,
-    entered      bool    not null,
-    left         bool    not null,
-    phone_number varchar not null,
+    document     varchar(14) not null,
+    is_blocked      bool    not null default false,
+    is_entered      bool    not null default false,
+    is_left         bool    not null default false,
+    phone_number varchar(11) not null,
     email        varchar not null,
     profile_id   integer not null
 );
 
-alter table tickets.cv_guests
+alter table cv_guests
     add constraint fk_event
-        foreign key (event_id) references tickets.cv_events;
+        foreign key (event_id) references cv_events;
 
-
-comment on table tickets.cv_guests is 'Tabela para armazenar convidados';
+comment on table cv_guests is 'Tabela para armazenar convidados';

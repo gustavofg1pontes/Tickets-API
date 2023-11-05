@@ -21,11 +21,7 @@ public class DefaultGetEventByIdUseCase extends GetEventByIdUseCase {
     @Override
     public EventOutput execute(String anIn) {
         final EventID eventID = EventID.from(anIn);
-        final EventOutput eventOutput = EventOutput.from(
-                eventGateway.findById(eventID).orElseThrow(notFound(eventID)),
-                this.guestGateway.findAllByEventId(eventID)
-        );
-        return eventOutput;
+        return EventOutput.from(eventGateway.findById(eventID).orElseThrow(notFound(eventID)));
     }
 
 
